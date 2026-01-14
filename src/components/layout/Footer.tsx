@@ -56,7 +56,9 @@ export function Footer() {
                     </div>
 
                     <div className="flex flex-col md:flex-row justify-between items-center gap-4 mt-10 text-xs text-gray-500">
-                        <p>Copyright 2022. All Rights Reserved</p>
+                        <p>
+                            &copy; {new Date().getFullYear()} Atlania. Developed by <Link href="https://shakibcoder.netlify.app/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium">Sheikh Shamiul Shakib</Link>
+                        </p>
                         <div className="flex gap-6">
                             <Link href="#" className="hover:text-gray-300">Privacy Policy</Link>
                             <Link href="#" className="hover:text-gray-300">Terms & Conditions</Link>
