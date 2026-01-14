@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link";
-import { Facebook, Twitter, Instagram, Menu, X } from "lucide-react";
+import { Facebook, Twitter, Instagram, Menu, X, User, UserCog } from "lucide-react";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -68,15 +68,12 @@ export function Header() {
                 <div className="flex items-center gap-2 z-50">
                     <ModeToggle />
                     <div className="hidden md:flex items-center gap-2">
-                        <Link href="#" className="p-2 hover:bg-secondary rounded-full transition-colors text-foreground">
-                            <Facebook className="w-4 h-4 md:w-5 md:h-5" />
-                        </Link>
-                        <Link href="#" className="p-2 hover:bg-secondary rounded-full transition-colors text-foreground">
-                            <Twitter className="w-4 h-4 md:w-5 md:h-5" />
-                        </Link>
-                        <Link href="#" className="p-2 hover:bg-secondary rounded-full transition-colors text-foreground">
-                            <Instagram className="w-4 h-4 md:w-5 md:h-5" />
-                        </Link>
+                        <div className="hidden md:flex items-center gap-4 border-l border-border/40 ml-4 pl-4">
+                            <Link href="/login" className="text-sm font-bold text-foreground hover:text-primary transition-colors">Sign In</Link>
+                            <Link href="/profile" className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-foreground hover:bg-primary hover:text-white transition-all">
+                                <User className="w-5 h-5" />
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -110,16 +107,31 @@ export function Header() {
                             ))}
                         </nav>
 
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.6 }}
-                            className="mt-10 flex gap-6 justify-center"
-                        >
-                            <Link href="#" className="p-3 bg-secondary rounded-full text-foreground"><Facebook /></Link>
-                            <Link href="#" className="p-3 bg-secondary rounded-full text-foreground"><Twitter /></Link>
-                            <Link href="#" className="p-3 bg-secondary rounded-full text-foreground"><Instagram /></Link>
-                        </motion.div>
+                        <div className="mt-auto pb-10 space-y-4">
+                            <Link
+                                href="/login"
+                                onClick={() => setIsOpen(false)}
+                                className="w-full h-14 rounded-2xl bg-secondary flex items-center justify-center text-foreground font-bold"
+                            >
+                                Sign In
+                            </Link>
+                            <div className="flex gap-4">
+                                <Link
+                                    href="/profile"
+                                    onClick={() => setIsOpen(false)}
+                                    className="flex-1 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center gap-3 text-white font-bold"
+                                >
+                                    <User className="w-5 h-5" /> Profile
+                                </Link>
+                                <Link
+                                    href="/admin/profile"
+                                    onClick={() => setIsOpen(false)}
+                                    className="flex-1 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center gap-3 text-white font-bold"
+                                >
+                                    <UserCog className="w-5 h-5" /> Admin
+                                </Link>
+                            </div>
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>
