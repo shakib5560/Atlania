@@ -1,18 +1,18 @@
-# Atlania - Modern Tech Blog
+# 🌌 Atlania — Frontend
 
-![Atlania Preview](/public/preview.png)
+[![Live Demo](https://img.shields.io/badge/demo-live-blueviolet?style=for-the-badge&logo=vercel)](https://atlania.vercel.app/)
 
-Atlania is a premium, high-performance blog website built with **Next.js 16**, **Tailwind CSS**, and **Framer Motion**. It features a modern design with dark mode support, smooth scroll animations, and a fully responsive layout.
+Atlania is a premium, high-performance blog website built with **Next.js 16**, **Tailwind CSS**, and **Framer Motion**. It is powered by a high-performance **FastAPI** backend to deliver a seamless full-stack experience.
 
-## 🚀 Features
+## 🚀 Key Features
 
--   **Modern Tech Stack**: Built with Next.js 16 (App Router) and React 19.
--   **Premium UI/UX**: Clean typography, bento-grid layouts, and glassmorphism effects.
--   **Dark Mode**: Fully supported dark/light theme switching using `next-themes`.
--   **Animations**: Stunning entrance and scroll animations powered by `framer-motion`.
--   **Responsive Design**: optimized for mobile, tablet, and desktop devices.
--   **Dynamic Routing**: Individual article pages (`/article/[id]`) with dynamic data rendering.
--   **Typography**: Beautiful reading experience with `@tailwindcss/typography`.
+- **🌐 Live Demo**: [atlania.vercel.app](https://atlania.vercel.app/)
+- **🛡️ Full-Stack Integration**: Built-in connections to the FastAPI backend.
+- **🎨 Modern Aesthetic**: Glassmorphism, bento grids, and unified dark/light themes.
+- **🔐 Auth & Profiles**: Dedicated flows for Login, Signup, and User Dashboards.
+- **📊 Admin Dashboard**: Specialized views for site management and analytics.
+- **✨ Micro-animations**: Stunning entrance and scroll animations via `framer-motion`.
+- **📱 Responsive Layout**: Optimized for every screen size.
 
 ## 🛠️ Technologies
 
