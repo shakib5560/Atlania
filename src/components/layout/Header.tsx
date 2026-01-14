@@ -32,7 +32,7 @@ export function Header() {
     ];
 
     return (
-        <header className="w-full py-6 md:py-8 bg-background sticky top-0 z-50 transition-all border-b border-border/40 backdrop-blur-sm bg-background/80 supports-[backdrop-filter]:bg-background/60">
+        <header className={`w-full py-6 md:py-8 sticky top-0 z-50 transition-all border-b border-border/40 ${isOpen ? 'bg-background' : 'bg-background/80 backdrop-blur-sm supports-[backdrop-filter]:bg-background/60'}`}>
             <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
                 {/* Desktop Navigation */}
                 <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
