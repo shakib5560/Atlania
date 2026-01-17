@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ThemeProvider } from "@/components/theme-provider";
+import { AuthProvider } from "@/components/auth-context";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -27,11 +28,13 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Header />
-          <div className="flex-1">
-            {children}
-          </div>
-          <Footer />
+          <AuthProvider>
+            <Header />
+            <div className="flex-1">
+              {children}
+            </div>
+            <Footer />
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

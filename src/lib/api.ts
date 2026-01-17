@@ -26,9 +26,9 @@ export async function apiRequest(endpoint: string, options: RequestInit = {}) {
 
 export const api = {
     get: (endpoint: string, options?: RequestInit) => apiRequest(endpoint, { ...options, method: "GET" }),
-    post: (endpoint: string, body: any, options?: RequestInit) =>
+    post: (endpoint: string, body: unknown, options?: RequestInit) =>
         apiRequest(endpoint, { ...options, method: "POST", body: body instanceof FormData ? body : JSON.stringify(body) }),
-    put: (endpoint: string, body: any, options?: RequestInit) =>
+    put: (endpoint: string, body: unknown, options?: RequestInit) =>
         apiRequest(endpoint, { ...options, method: "PUT", body: JSON.stringify(body) }),
     delete: (endpoint: string, options?: RequestInit) => apiRequest(endpoint, { ...options, method: "DELETE" }),
 };
