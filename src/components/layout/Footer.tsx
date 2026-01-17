@@ -113,19 +113,54 @@ export function Footer() {
 
                         {/* Link Columns */}
                         {[
-                            { title: "Explore", items: ["Home", "Features", "Categories", "Pricing", "About us"] },
-                            { title: "Resources", items: ["Documentation", "Community", "Support", "FAQ", "Blog"] },
-                            { title: "Legal", items: ["Terms of service", "Privacy policy", "Cookie policy", "Security"] },
-                            { title: "Connect", items: ["Facebook", "Instagram", "LinkedIn", "Twitter", "Github"] }
+                            {
+                                title: "Explore",
+                                items: [
+                                    { label: "Home", href: "/" },
+                                    { label: "Features", href: "/feature" },
+                                    { label: "Categories", href: "/categories" },
+                                    { label: "Pricing", href: "/pricing" },
+                                    { label: "About us", href: "/about" }
+                                ]
+                            },
+                            {
+                                title: "Resources",
+                                items: [
+                                    { label: "Documentation", href: "/documentation" },
+                                    { label: "Community", href: "/community" },
+                                    { label: "Support", href: "/support" },
+                                    { label: "FAQ", href: "/faq" },
+                                    { label: "Blog", href: "/blog" }
+                                ]
+                            },
+                            {
+                                title: "Legal",
+                                items: [
+                                    { label: "Terms of service", href: "/legal/terms" },
+                                    { label: "Privacy policy", href: "/legal/privacy" },
+                                    { label: "Cookie policy", href: "/legal/cookie" },
+                                    { label: "Security", href: "/legal/security" }
+                                ]
+                            },
+                            {
+                                title: "Connect",
+                                items: [
+                                    { label: "Facebook", href: "#" },
+                                    { label: "Instagram", href: "#" },
+                                    { label: "LinkedIn", href: "#" },
+                                    { label: "Twitter", href: "#" },
+                                    { label: "Github", href: "#" }
+                                ]
+                            }
                         ].map((column) => (
                             <motion.div key={column.title} variants={itemVariants} className="space-y-8">
                                 <h4 className="text-sm font-black uppercase tracking-[0.2em] text-gray-900/40 dark:text-white/40">{column.title}</h4>
                                 <ul className="space-y-5">
                                     {column.items.map((item) => (
-                                        <li key={item}>
-                                            <Link href="#" className="text-gray-500 dark:text-gray-400 hover:text-primary transition-all text-sm font-semibold flex items-center group">
+                                        <li key={item.label}>
+                                            <Link href={item.href} className="text-gray-500 dark:text-gray-400 hover:text-primary transition-all text-sm font-semibold flex items-center group">
                                                 <span className="w-0 group-hover:w-4 h-[2px] bg-primary mr-0 group-hover:mr-3 transition-all duration-500 opacity-0 group-hover:opacity-100" />
-                                                {item}
+                                                {item.label}
                                             </Link>
                                         </li>
                                     ))}
