@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
+import { User, UserRole } from "@/types";
 import {
     Table,
     TableBody,
@@ -19,12 +20,12 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal, Shield, User, PenTool, Loader2, Check, UserCircle } from "lucide-react";
+import { MoreHorizontal, Shield, User as UserIcon, Loader2, Check, UserCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/components/auth-context";
 
 export default function UserManagementPage() {
-    const [users, setUsers] = useState<any[]>([]);
+    const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
     const { user: currentUser } = useAuth();
 
@@ -43,7 +44,7 @@ export default function UserManagementPage() {
         fetchUsers();
     }, []);
 
-    const handleRoleChange = async (userId: number, newRole: string) => {
+    const handleRoleChange = async (userId: number, newRole: UserRole) => {
         try {
             await api.put(`/admin/users/${userId}/role`, { role: newRole });
             fetchUsers();
@@ -133,7 +134,7 @@ export default function UserManagementPage() {
                                                 onClick={() => handleRoleChange(u.id, "reader")}
                                                 className="rounded-lg gap-2 cursor-pointer"
                                             >
-                                                <User className="w-4 h-4 text-gray-500" /> Reader {u.role === 'reader' && <Check className="w-3 h-3 ml-auto" />}
+                                                <UserIcon className="w-4 h-4 text-gray-500" /> Reader {u.role === 'reader' && <Check className="w-3 h-3 ml-auto" />}
                                             </DropdownMenuItem>
                                             <DropdownMenuSeparator />
                                             <DropdownMenuItem className="rounded-lg gap-2 text-red-500 focus:text-red-500 cursor-pointer">
@@ -147,6 +148,6 @@ export default function UserManagementPage() {
                     </TableBody>
                 </Table>
             </div>
-        </div>
+        </div >
     );
 }

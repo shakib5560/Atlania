@@ -4,8 +4,10 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { BackToTop } from "@/components/layout/BackToTop";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AuthProvider } from "@/components/auth-context";
+import { SmoothScroll } from "@/components/SmoothScroll";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -30,10 +32,13 @@ export default function RootLayout({
         >
           <AuthProvider>
             <Header />
-            <div className="flex-1">
-              {children}
-            </div>
-            <Footer />
+            <SmoothScroll>
+              <div className="flex-1 pt-24 md:pt-32">
+                {children}
+              </div>
+              <Footer />
+            </SmoothScroll>
+            <BackToTop />
           </AuthProvider>
         </ThemeProvider>
       </body>

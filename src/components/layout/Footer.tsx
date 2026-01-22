@@ -7,19 +7,6 @@ import { useState, useEffect } from "react";
 
 export function Footer() {
     const [email, setEmail] = useState("");
-    const [isScrolled, setIsScrolled] = useState(false);
-
-    useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 300);
-        };
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
-
-    const scrollToTop = () => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    };
 
     const containerVariants: Variants = {
         hidden: { opacity: 0 },
@@ -42,7 +29,7 @@ export function Footer() {
     };
 
     return (
-        <footer className="relative w-full overflow-hidden transition-colors duration-500 font-sans border-t border-black/5 dark:border-white/5 bg-white dark:bg-[#030308]">
+        <footer className="relative w-full overflow-hidden transition-colors duration-500 font-sans border-t border-black/5 dark:border-white/5 bg-background">
             {/* 1. Newsletter Header Section */}
             <div className="pt-24 pb-16 text-center px-4 transition-colors duration-500">
                 <motion.div
@@ -190,23 +177,6 @@ export function Footer() {
                 </div>
             </div>
 
-            {/* Back to Top Button */}
-            <AnimatePresence>
-                {isScrolled && (
-                    <motion.button
-                        initial={{ opacity: 0, scale: 0.5, y: 20 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.5, y: 20 }}
-                        whileHover={{ y: -5 }}
-                        whileTap={{ scale: 0.9 }}
-                        onClick={scrollToTop}
-                        className="fixed bottom-10 right-10 w-14 h-14 rounded-2xl bg-primary text-white flex items-center justify-center shadow-[0_20px_40px_rgba(59,130,246,0.4)] hover:shadow-primary/60 transition-all z-[99] border border-black/10 dark:border-white/10 backdrop-blur-md"
-                    >
-                        <ArrowUp className="w-7 h-7" />
-                    </motion.button>
-                )}
-            </AnimatePresence>
-
             <style jsx global>{`
                 @keyframes gradient-x {
                     0% { background-position: 0% 50%; }
@@ -225,6 +195,6 @@ export function Footer() {
                     to { transform: rotate(360deg); }
                 }
             `}</style>
-        </footer>
+        </footer >
     );
 }

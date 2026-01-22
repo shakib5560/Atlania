@@ -1,13 +1,49 @@
 import { FileText, Users, Eye, ArrowUpRight, ArrowDownRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
+import { api } from "@/lib/api";
 
-const stats = [
-    { label: "Total Posts", value: "124", icon: FileText, change: "+12%", trend: "up" },
-    { label: "Total Views", value: "45.2k", icon: Eye, change: "+18%", trend: "up" },
-    { label: "Active Users", value: "1,203", icon: Users, change: "-3%", trend: "down" },
+const initialStats = [
+    { label: "Total Users", value: "...", icon: Users, change: "0%", trend: "neutral", key: "users" },
+    { label: "Published Posts", value: "...", icon: FileText, change: "0%", trend: "neutral", key: "posts" },
+    { label: "Pending Reviews", value: "...", icon: Eye, change: "0%", trend: "neutral", key: "pending" },
 ];
 
 export default function AdminDashboard() {
+    const [stats, setStats] = useState(initialStats);
+    const [recentActivity, setRecentActivity] = useState<any[]>([]);
+
+    useEffect(() => {
+        const fetchStats = async () => {
+            try {
+                const [users, posts, pending] = (await Promise.all([
+                    api.get("/admin/users"),
+                    api.get("/posts"),
+                    api.get("/admin/posts/pending")
+                ])) as unknown as [any[], any[], any[]];
+
+                setStats([
+                    { label: "Total Users", value: users.length.toString(), icon: Users, change: "+", trend: "up", key: "users" },
+                    { label: "Published Posts", value: posts.length.toString(), icon: FileText, change: "+", trend: "up", key: "posts" },
+                    { label: "Pending Reviews", value: pending.length.toString(), icon: Eye, change: pending.length > 0 ? "!" : "0", trend: pending.length > 0 ? "down" : "neutral", key: "pending" },
+                ]);
+
+                // Mock recent activity based on pending posts for now
+                setRecentActivity(pending.slice(0, 5).map((p: any) => ({
+                    id: p.id,
+                    message: `New post pending: "${p.title}"`,
+                    time: new Date(p.created_at).toLocaleDateString(),
+                    initial: p.author?.full_name?.[0] || "U"
+                })));
+
+            } catch (error) {
+                console.error("Failed to fetch admin stats", error);
+            }
+        };
+
+        fetchStats();
+    }, []);
+
     return (
         <div className="space-y-8">
             <div>
@@ -24,10 +60,11 @@ export default function AdminDashboard() {
                             </div>
                             <div className={cn(
                                 "flex items-center gap-1 text-sm font-medium",
-                                stat.trend === "up" ? "text-emerald-500" : "text-rose-500"
+                                stat.trend === "up" ? "text-emerald-500" : stat.trend === "down" ? "text-rose-500" : "text-gray-500"
                             )}>
                                 {stat.change}
-                                {stat.trend === "up" ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
+                                {stat.trend === "up" && <ArrowUpRight className="w-4 h-4" />}
+                                {stat.trend === "down" && <ArrowDownRight className="w-4 h-4" />}
                             </div>
                         </div>
                         <div className="mt-4">
@@ -42,21 +79,23 @@ export default function AdminDashboard() {
                 {/* Recent Activity */}
                 <div className="bg-background rounded-xl border border-border shadow-sm overflow-hidden">
                     <div className="p-6 border-b border-border flex items-center justify-between">
-                        <h2 className="text-lg font-semibold">Recent Activity</h2>
+                        <h2 className="text-lg font-semibold">Pending Approvals</h2>
                         <button className="text-sm text-primary hover:underline font-medium">View All</button>
                     </div>
                     <div className="divide-y divide-border">
-                        {[1, 2, 3, 4].map((i) => (
-                            <div key={i} className="p-4 flex items-center gap-4 hover:bg-secondary/50 transition-colors">
+                        {recentActivity.length > 0 ? recentActivity.map((activity) => (
+                            <div key={activity.id} className="p-4 flex items-center gap-4 hover:bg-secondary/50 transition-colors">
                                 <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center font-bold text-sm text-primary">
-                                    {String.fromCharCode(64 + i)}
+                                    {activity.initial}
                                 </div>
                                 <div className="flex-1">
-                                    <div className="text-sm font-medium">New post published: "The Future of AI"</div>
-                                    <div className="text-xs text-muted-foreground">2 hours ago</div>
+                                    <div className="text-sm font-medium">{activity.message}</div>
+                                    <div className="text-xs text-muted-foreground">{activity.time}</div>
                                 </div>
                             </div>
-                        ))}
+                        )) : (
+                            <div className="p-8 text-center text-muted-foreground">No pending activities</div>
+                        )}
                     </div>
                 </div>
 

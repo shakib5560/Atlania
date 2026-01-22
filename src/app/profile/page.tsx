@@ -1,11 +1,18 @@
 "use client"
 
 import { motion } from "framer-motion";
-import { User, Mail, Calendar, BookOpen, Bookmark, Clock, Settings, LogOut, ChevronRight } from "lucide-react";
+import { User, Mail, Calendar, BookOpen, Bookmark, Clock, Settings, LogOut, ChevronRight, Shield } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/components/auth-context";
 
 export default function ProfilePage() {
+    const { user, logout, isAdmin } = useAuth();
+
+    if (!user) {
+        return <div className="min-h-screen bg-[#030308] pt-32 pb-20 px-4 flex items-center justify-center text-white">Loading...</div>;
+    }
+
     return (
         <div className="min-h-screen bg-[#030308] pt-32 pb-20 px-4">
             <div className="container mx-auto max-w-6xl">
@@ -21,7 +28,11 @@ export default function ProfilePage() {
                                 <div className="relative group">
                                     <div className="w-32 h-32 rounded-full bg-gradient-to-br from-primary to-blue-600 p-1">
                                         <div className="w-full h-full rounded-full bg-[#0b0b14] flex items-center justify-center overflow-hidden">
-                                            <User className="w-16 h-16 text-white/20" />
+                                            {user.avatar ? (
+                                                <img src={user.avatar} alt={user.full_name} className="w-full h-full object-cover" />
+                                            ) : (
+                                                <User className="w-16 h-16 text-white/20" />
+                                            )}
                                         </div>
                                     </div>
                                     <button className="absolute bottom-1 right-1 w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center border-4 border-[#0b0b14] hover:scale-110 transition-all">
@@ -30,22 +41,31 @@ export default function ProfilePage() {
                                 </div>
 
                                 <div>
-                                    <h2 className="text-2xl font-bold text-white tracking-tight">Sheikh Shamiul</h2>
-                                    <p className="text-primary font-bold text-sm tracking-widest uppercase mt-1">Reader & Collector</p>
+                                    <h2 className="text-2xl font-bold text-white tracking-tight">{user.full_name}</h2>
+                                    <p className="text-primary font-bold text-sm tracking-widest uppercase mt-1">{user.role}</p>
                                 </div>
 
                                 <div className="w-full pt-6 border-t border-white/5 space-y-4">
                                     <div className="flex items-center gap-4 text-gray-400 font-medium">
                                         <Mail className="w-5 h-5 text-primary" />
-                                        <span className="text-sm">shakib@atlania.studio</span>
+                                        <span className="text-sm">{user.email}</span>
                                     </div>
                                     <div className="flex items-center gap-4 text-gray-400 font-medium">
                                         <Calendar className="w-5 h-5 text-primary" />
-                                        <span className="text-sm">Joined January 2026</span>
+                                        <span className="text-sm">Joined {new Date(user.created_at).toLocaleDateString()}</span>
                                     </div>
                                 </div>
 
-                                <Button variant="outline" className="w-full h-12 rounded-xl border-white/10 hover:bg-white/5 text-gray-400 font-bold gap-2">
+                                {isAdmin && (
+                                    <Link href="/admin">
+                                        <Button className="w-full h-12 rounded-xl bg-primary text-white font-bold gap-2 mb-4">
+                                            <Shield className="w-4 h-4" />
+                                            Admin Dashboard
+                                        </Button>
+                                    </Link>
+                                )}
+
+                                <Button onClick={logout} variant="outline" className="w-full h-12 rounded-xl border-white/10 hover:bg-white/5 text-gray-400 font-bold gap-2">
                                     <LogOut className="w-4 h-4" />
                                     Sign Out
                                 </Button>

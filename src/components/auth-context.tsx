@@ -3,21 +3,13 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { api } from "@/lib/api";
-
-type Role = "admin" | "writer" | "reader";
-
-interface User {
-    id: number;
-    email: string;
-    full_name: string;
-    avatar: string;
-    role: Role;
-}
+import { User } from "@/types";
 
 interface AuthContextType {
     user: User | null;
     loading: boolean;
     login: (token: string) => Promise<void>;
+    register: (token: string) => Promise<void>;
     logout: () => void;
     isAdmin: boolean;
     isWriter: boolean;
@@ -32,7 +24,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const fetchUser = async () => {
         try {
-            const userData = await api.get("/auth/me");
+            const userData = await api.get("/auth/me") as User;
             setUser(userData);
         } catch (error) {
             localStorage.removeItem("token");
@@ -57,6 +49,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         router.push("/");
     };
 
+    const register = async (token: string) => {
+        localStorage.setItem("token", token);
+        await fetchUser();
+        router.push("/");
+    };
+
     const logout = () => {
         localStorage.removeItem("token");
         setUser(null);
@@ -67,7 +65,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const isWriter = user?.role === "writer" || user?.role === "admin";
 
     return (
-        <AuthContext.Provider value={{ user, loading, login, logout, isAdmin, isWriter }}>
+        <AuthContext.Provider value={{ user, loading, login, register, logout, isAdmin, isWriter }}>
             {children}
         </AuthContext.Provider>
     );

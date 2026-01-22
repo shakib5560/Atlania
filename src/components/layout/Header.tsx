@@ -7,9 +7,13 @@ import { ModeToggle } from "@/components/ui/mode-toggle";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { ReadingProgressBar } from "@/components/ui/ReadingProgressBar";
+import { usePathname } from "next/navigation";
 
 export function Header() {
     const [isOpen, setIsOpen] = useState(false);
+    const pathname = usePathname();
+    const isArticlePage = pathname.startsWith("/article/");
 
     // Prevent scrolling when menu is open
     useEffect(() => {
@@ -135,6 +139,7 @@ export function Header() {
                     </motion.div>
                 )}
             </AnimatePresence>
+            {isArticlePage && <ReadingProgressBar />}
         </header>
     );
 }
